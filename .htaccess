@@ -1,7 +1,0 @@
-Order deny,allow
-Deny from all
-AuthType Digest
-AuthName "upload"
-AuthUserFile /srv/www/upload.dabase.com/.digest-password
-Require valid-user
-Satisfy any
