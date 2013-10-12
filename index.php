@@ -5,7 +5,7 @@
 <title>FTP2.0</title>
 <style>
 body { margin: 3em; font-size: 2em; font-family: sans-serif; text-align: center; background-color: white; }
-input { font-size: 1.1em; padding: 2em }
+input { font-size: 1em; padding: 2em }
 form { border: 1.6em #42d451 solid; padding: 0.4em; background-color: #42d451; }
 </style>
 </head>
@@ -17,11 +17,11 @@ if (! getAdmin()) { die('<h1>You do not have the secret cookie to allow you to u
 ?>
 
 <form action="/upload.php" method="post" enctype="multipart/form-data">
-<input name="f[]" type="file" multiple="" />
+<input name="f[]" type="file" multiple="" accept="image/jpeg" />
 <input value="Upload" type="submit">
 </form>
 
-<pre>curl -f -H 'Cookie: ftptwo=<?php echo $_COOKIE['ftptwo']; ?>' -F "f=@/tmp/foobar.png" http://<?php echo $_SERVER["HTTP_HOST"]; ?>/upload.php</pre>
+<pre>curl -f -H 'Cookie: ftptwo=<?php echo $_COOKIE['ftptwo']; ?>' -F "f=@/tmp/foobar.jpg" http://<?php echo $_SERVER["HTTP_HOST"]; ?>/upload.php</pre>
 
 <p><a href="https://github.com/kaihendry/FTP2.0">MIT licensed source code</a></p>
 

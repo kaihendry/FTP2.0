@@ -35,7 +35,13 @@ if (! is_array($_FILES["f"]["name"])) {
 	while(file_exists("$dir/" . $name . $increment . '.' . $extension)) { $increment++; }
 
 	$incname = "$dir/" . $name . $increment . '.' . $extension;
+	$webp = "$dir/" . $name . $increment . '.' . "webp";
 	move_uploaded_file($_FILES["f"]['tmp_name'], $incname);
+
+	exec("jhead -autorot $incname", $output, $return);
+	if ($return) { unlink($incname); die("Not a JPEG"); }
+	exec("cwebp -short -metadata all $incname -o $webp", $output, $return);
+	unlink($incname);
 
 } else {
 
@@ -50,7 +56,13 @@ if (! is_array($_FILES["f"]["name"])) {
 	while(file_exists("$dir/" . $name . $increment . '.' . $extension)) { $increment++; }
 
 	$incname = "$dir/" . $name . $increment . '.' . $extension;
+	$webp = "$dir/" . $name . $increment . '.' . "webp";
 	move_uploaded_file($_FILES["f"]['tmp_name'][$i], $incname);
+
+	exec("jhead -autorot $incname", $output, $return);
+	if ($return) { unlink($incname); continue; }
+	exec("cwebp -short -metadata all $incname -o $webp", $output, $return);
+	unlink($incname);
 
 	}
 }
