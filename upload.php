@@ -44,6 +44,12 @@ unlink($incname);
 
 @rmdir($dir); // remove directory if empty
 
-header("Location: http://" . $_SERVER["HTTP_HOST"] . '/' . basename($dir) . '/' . basename($webp));
+$url = "http://" . $_SERVER["HTTP_HOST"] . '/' . basename($dir) . '/' . basename($webp);
+
+
+$subject = gethostbyaddr($_SERVER['REMOTE_ADDR']) . ' ' . $_COOKIE['ftptwo'];
+mail('up', $subject, $url);
+
+header("Location: $url");
 
 ?>
