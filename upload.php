@@ -50,6 +50,15 @@ $url = "http://" . $_SERVER["HTTP_HOST"] . '/' . basename($dir) . '/' . basename
 $subject = gethostbyaddr($_SERVER['REMOTE_ADDR']) . ' ' . $_COOKIE['ftptwo'];
 mail('up', $subject, $url);
 
-header("Location: $url");
+switch ($_POST["after"]) {
+case "listing":
+	header("Location: http://" . $_SERVER["HTTP_HOST"] . '/' . basename($dir));
+	break;
+case "show":
+	header("Location: $url");
+	break;
+default:
+	header("Location: http://" . $_SERVER["HTTP_HOST"] . "/?success=$url");
+}
 
 ?>
