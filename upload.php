@@ -13,7 +13,6 @@ if (! getAdmin()) {
 
 // die("wtf");
 
-
 date_default_timezone_set('Asia/Singapore');
 
 $dir = getcwd();
@@ -30,10 +29,12 @@ $name = pathinfo($_FILES['f']['name'], PATHINFO_FILENAME);
 $extension = pathinfo($_FILES['f']['name'], PATHINFO_EXTENSION);
 $increment = ''; //start with no suffix
 
-while(file_exists("$dir/" . $name . $increment . '.' . $extension)) { $increment++; }
+// We save to WebP, so we need to check for WebP filenames
+while(file_exists("$dir/" . $name . $increment . '.' . "webp")) { $increment++; }
 
 $incname = "$dir/" . $name . $increment . '.' . $extension;
 $webp = "$dir/" . $name . $increment . '.' . "webp";
+
 move_uploaded_file($_FILES["f"]['tmp_name'], $incname);
 
 exec("jhead -autorot $incname", $output, $return);
@@ -42,6 +43,7 @@ exec("cwebp -short -metadata all $incname -o $webp", $output, $return);
 unlink($incname);
 
 @rmdir($dir); // remove directory if empty
-header("Location: http://" . $_SERVER["HTTP_HOST"] . '/' . basename($dir));
+
+header("Location: http://" . $_SERVER["HTTP_HOST"] . '/' . basename($dir) . '/' . basename($webp));
 
 ?>
