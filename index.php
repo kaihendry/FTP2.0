@@ -17,7 +17,10 @@ if (! getAdmin()) { die('<h1>You do not have the secret cookie to allow you to u
 ?>
 
 <form action="/upload.php" method="post" enctype="multipart/form-data">
+<!--
 <input name="f[]" type="file" multiple="" accept="image/jpeg" />
+-->
+<input type="file" name=f accept="image/*" capture="camera">
 <input value="Upload" type="submit">
 </form>
 
