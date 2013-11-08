@@ -24,48 +24,22 @@ if (is_writable($dir)) {
 }
 @mkdir($dir, 0777);
 
-if (! is_array($_FILES["f"]["name"])) {
+if (! is_uploaded_file($_FILES['f']['tmp_name'])) { die("Upload fail: Missing file " . $_FILES["f"]["name"]); }
 
-	if (! is_uploaded_file($_FILES['f']['tmp_name'])) { die("Upload fail: Missing file " . $_FILES["f"]["name"]); }
+$name = pathinfo($_FILES['f']['name'], PATHINFO_FILENAME);
+$extension = pathinfo($_FILES['f']['name'], PATHINFO_EXTENSION);
+$increment = ''; //start with no suffix
 
-	$name = pathinfo($_FILES['f']['name'], PATHINFO_FILENAME);
-	$extension = pathinfo($_FILES['f']['name'], PATHINFO_EXTENSION);
-	$increment = ''; //start with no suffix
+while(file_exists("$dir/" . $name . $increment . '.' . $extension)) { $increment++; }
 
-	while(file_exists("$dir/" . $name . $increment . '.' . $extension)) { $increment++; }
+$incname = "$dir/" . $name . $increment . '.' . $extension;
+$webp = "$dir/" . $name . $increment . '.' . "webp";
+move_uploaded_file($_FILES["f"]['tmp_name'], $incname);
 
-	$incname = "$dir/" . $name . $increment . '.' . $extension;
-	$webp = "$dir/" . $name . $increment . '.' . "webp";
-	move_uploaded_file($_FILES["f"]['tmp_name'], $incname);
-
-	exec("jhead -autorot $incname", $output, $return);
-	if ($return) { unlink($incname); die("Not a JPEG"); }
-	exec("cwebp -short -metadata all $incname -o $webp", $output, $return);
-	unlink($incname);
-
-} else {
-
-	for ($i = 0; $i < count($_FILES["f"]["name"]); $i++) {
-
-	if (! is_uploaded_file($_FILES['f']['tmp_name'][$i])) { die("Upload fail: Missing file " . $_FILES["f"]["name"][$i]); }
-
-	$name = pathinfo($_FILES['f']['name'][$i], PATHINFO_FILENAME);
-	$extension = pathinfo($_FILES['f']['name'][$i], PATHINFO_EXTENSION);
-	$increment = ''; //start with no suffix
-
-	while(file_exists("$dir/" . $name . $increment . '.' . $extension)) { $increment++; }
-
-	$incname = "$dir/" . $name . $increment . '.' . $extension;
-	$webp = "$dir/" . $name . $increment . '.' . "webp";
-	move_uploaded_file($_FILES["f"]['tmp_name'][$i], $incname);
-
-	exec("jhead -autorot $incname", $output, $return);
-	if ($return) { unlink($incname); continue; }
-	exec("cwebp -short -metadata all $incname -o $webp", $output, $return);
-	unlink($incname);
-
-	}
-}
+exec("jhead -autorot $incname", $output, $return);
+if ($return) { unlink($incname); die("Not a JPEG"); }
+exec("cwebp -short -metadata all $incname -o $webp", $output, $return);
+unlink($incname);
 
 @rmdir($dir); // remove directory if empty
 header("Location: http://" . $_SERVER["HTTP_HOST"] . '/' . basename($dir));
