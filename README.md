@@ -20,4 +20,10 @@
 		}
 	}
 
+# Authentication
 
+	touch cookies/foobar
+
+"foobar" becomes the secret word
+
+`http://up.dabase.com/?ftptwo=foobar` to set the cookie on the browser.

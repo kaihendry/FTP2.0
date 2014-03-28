@@ -4,8 +4,6 @@
 <meta charset="utf-8" />
 <title>Upload an image to Kai</title>
 <meta name="viewport" content="minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
 <style>
 body { font-family: "Gill Sans", sans-serif; }
 #yourBtn{
@@ -38,10 +36,8 @@ if (! getAdmin()) { die('<h1>You do not have the secret cookie to allow you to u
 if (isset($_GET["success"])) { echo "<h4>Successfully uploaded: <a href=" . $_GET['success'] . ">". $_GET['success'] . "</a></h4>"; }
 ?>
 
-
-
 <form name="myForm" action="/upload.php" method="post" enctype="multipart/form-data">
-<div id="yourBtn" onclick="getFile()">Click to upload a<?php if (isset($_GET["success"])) { echo "nother"; } ?> photo</div>
+<div id="yourBtn" onclick="getFile()">Click to upload a<?php if (isset($_GET["success"])) { echo "another"; } ?> photo</div>
 <!-- i used the onchange event to fire the form submission-->
 <div style='height: 0px;width: 0px; overflow:hidden;'><input id="upfile" type="file"  name=f onchange="sub(this)"/></div>
 
@@ -51,7 +47,7 @@ if (isset($_GET["success"])) { echo "<h4>Successfully uploaded: <a href=" . $_GE
 <input type="radio" id=listing name="after" value="listing">
 <label for="listing">listing</label>
 <input type="radio" id=show name="after" value="show">
-<label for="show">file</label>
+<label for="show">photo</label>
 </p>
 </form>
 

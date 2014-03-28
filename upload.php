@@ -33,22 +33,29 @@ $increment = ''; //start with no suffix
 while(file_exists("$dir/" . $name . $increment . '.' . "webp")) { $increment++; }
 
 $incname = "$dir/" . $name . $increment . '.' . $extension;
-$webp = "$dir/" . $name . $increment . '.' . "webp";
 
-move_uploaded_file($_FILES["f"]['tmp_name'], $incname);
-
-exec("jhead -autorot $incname", $output, $return);
-if ($return) { unlink($incname); die("Not a JPEG"); }
-exec("cwebp -short -metadata all $incname -o $webp", $output, $return);
-unlink($incname);
+if ($extension == "jpg") {
+	$webp = "$dir/" . $name . $increment . '.' . "webp";
+	move_uploaded_file($_FILES["f"]['tmp_name'], $incname);
+	exec("jhead -autorot $incname", $output, $return);
+	if ($return) { unlink($incname); die("Not a JPEG"); }
+	exec("cwebp -short -metadata all $incname -o $webp", $output, $return);
+	unlink($incname);
+} else if ($extension == "png") {
+	// PNGCRUSH
+	move_uploaded_file($_FILES["f"]['tmp_name'], $incname);
+} else {
+	die("unknown file");
+}
 
 @rmdir($dir); // remove directory if empty
 
 $url = "http://" . $_SERVER["HTTP_HOST"] . '/' . basename($dir) . '/' . basename($webp);
 
-
 $subject = gethostbyaddr($_SERVER['REMOTE_ADDR']) . ' ' . $_COOKIE['ftptwo'];
-mail('up', $subject, $url);
+if ($_COOKIE['ftptwo'] == 'mom') {
+	mail('up, prazefarm@gmail.com', $subject, $url);
+}
 
 switch ($_POST["after"]) {
 case "listing":
