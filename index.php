@@ -37,7 +37,7 @@ if (isset($_GET["success"])) { echo "<h4>Successfully uploaded: <a href=" . $_GE
 ?>
 
 <form name="myForm" action="/upload.php" method="post" enctype="multipart/form-data">
-<div id="yourBtn" onclick="getFile()">Click to upload a<?php if (isset($_GET["success"])) { echo "another"; } ?> photo</div>
+<div id="yourBtn" onclick="getFile()">Click to upload <?php if (isset($_GET["success"])) { echo "another"; } else { echo "a"; } ?> photo</div>
 <!-- i used the onchange event to fire the form submission-->
 <div style='height: 0px;width: 0px; overflow:hidden;'><input id="upfile" type="file"  name=f onchange="sub(this)"/></div>
 

@@ -20,6 +20,11 @@
 		}
 	}
 
+# PHP
+
+	; http://php.net/upload-max-filesize
+	upload_max_filesize = 8M
+
 # Authentication
 
 	touch cookies/foobar

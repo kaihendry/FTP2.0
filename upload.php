@@ -34,7 +34,7 @@ while(file_exists("$dir/" . $name . $increment . '.' . "webp")) { $increment++; 
 
 $incname = "$dir/" . $name . $increment . '.' . $extension;
 
-if ($extension == "jpg") {
+if (fnmatch("jp*", $extension)) {
 	$webp = "$dir/" . $name . $increment . '.' . "webp";
 	move_uploaded_file($_FILES["f"]['tmp_name'], $incname);
 	exec("jhead -autorot $incname", $output, $return);
@@ -45,7 +45,7 @@ if ($extension == "jpg") {
 	// PNGCRUSH
 	move_uploaded_file($_FILES["f"]['tmp_name'], $incname);
 } else {
-	die("unknown file");
+	die("unknown extension: ". $extension);
 }
 
 @rmdir($dir); // remove directory if empty
